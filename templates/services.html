@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="services-page">
+
+  <div class="search-area">
+    <h1>Find Trusted Local Services</h1>
+    <p class="muted">
+      Ask in plain English or type your need. Example: <em>"Find a plumber near Delhi"</em>
+    </p>
+
+    <form class="search-bar" method="get" action="{{ url_for('results') }}">
+      <input type="text" name="q" placeholder="Search for service (e.g. plumber)" required>
+      <input type="text" name="city" placeholder="City (e.g. Delhi)">
+      <input type="text" name="country" placeholder="Country (e.g. India)">
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="popular-tags">
+      {% for s in services %}
+        <a href="{{ url_for('results') }}?q={{ s }}" class="chip">{{ s }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Horizontal Info Section -->
+  <div class="how-to-section" id="howto">
+    <h2>🚀 How to Use This Website</h2>
+    <div class="info-grid">
+      <div class="info-box">
+        <h3><span class="step">1</span> Login or Continue as Guest</h3>
+        <p>Sign in with your email to unlock more results or continue as a guest to try the basic features.</p>
+      </div>
+
+      <div class="info-box">
+        <h3><span class="step">2</span> Search Your Service</h3>
+        <p>Type what you need — "Plumber in Delhi", "Gym trainer near me", or any similar request.</p>
+      </div>
+
+      <div class="info-box">
+        <h3><span class="step">3</span> View Results</h3>
+        <p>Compare trusted service providers near you based on reviews, distance, and price.</p>
+      </div>
+
+      <div class="info-box">
+        <h3><span class="step">4</span> Book Instantly</h3>
+        <p>Click "Book Now" to confirm and get provider contact details instantly.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}

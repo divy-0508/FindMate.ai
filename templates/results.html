@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="results-top">
+  <div>
+    <h3>Results for <span class="accent">“{{ query }}”</span></h3>
+    <p class="muted small">Service: {{ service|capitalize }} {% if guest %}• Guest (partial){% endif %}</p>
+  </div>
+  <div>
+    <a href="{{ url_for('home') }}" class="btn-outline small">New Search</a>
+  </div>
+</div>
+
+<div class="grid-results">
+  {% for p in providers %}
+  <article class="provider-card" style="--delay: {{ loop.index0 * 60 }}ms">
+    <div class="img-wrap">
+      <img src="{{ p.image }}" alt="{{ p.name }}">
+      <div class="rating">{{ p.rating }} ★</div>
+    </div>
+    <div class="card-body">
+      <h4>{{ p.name }}</h4>
+      <p class="muted small">{{ p.distance }} • ₹{{ p.cost }}</p>
+      <p class="muted small"> ⭐ Rating : {{ p.rating}} / 5</p>
+      <p class="muted small"> Address : {{ p.address}}</p>
+      <p class="muted small">Tags: {{ p.tags|join(', ') }}</p>
+
+      <form method="post" action="{{ url_for('book', provider_id=p.id) }}" class="book-form">
+        <input type="hidden" name="q" value="{{ query }}">
+        <div class="row g-2">
+          <div class="col-6"><input name="name" placeholder="Your name" required></div>
+          <div class="col-6"><input name="contact" placeholder="Contact" required></div>
+        </div>
+        <div class="row g-2 mt-2">
+          <div class="col-8"><input name="slot" placeholder="Preferred slot"></div>
+          <div class="col-4"><button class="btn-accent small" type="submit">Book</button></div>
+        </div>
+      </form>
+
+      <div class="card-foot">
+        <a href="tel:{{ p.contact }}" class="btn-outline small">Call</a>
+        <span class="muted small">{{ p.contact }}</span>
+        {% if p.maps_link and p.maps_link != "N/A" %}
+         <a href="https://www.google.com/maps?q={{ p.name | urlencode }}" target="_blank">View on Map</a>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+{% if guest %}
+<div class="note-guest">You are seeing partial results as a guest. <a href="{{ url_for('login') }}">Sign in</a> to unlock full results.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+  <div class="hero-left">
+    <h1>Find Trusted Local Services</h1>
+    <p class="muted">Ask in plain English or use voice. Example: <em>“Find a plumber near Gomti Nagar”</em></p>
+
+    <form action="{{ url_for('results') }}" method="get">
+  <input type="text" name="q" placeholder="Search for service (e.g. plumber)" required>
+  <input type="text" name="city" placeholder="City (e.g. Delhi)">
+  <input type="text" name="country" placeholder="Country (e.g. India)">
+  <button type="submit">Search</button>
+</form>
+
+    <div class="quick-chips">
+      {% for s in services %}
+        <a href="{{ url_for('results') }}?q={{ s }}" class="chip">{{ s }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+
+  <div class="hero-right">
+    <div class="glass-card">
+      <h4>Why FindMateAI</h4>
+      <ul>
+        <li>Conversational, intelligent search</li>
+        <li>Premium results and comparisons</li>
+        <li>Made-in-India identity and trust</li>
+      </ul>
+      <div class="cta-row">
+        <button class="btn-outline" onclick="location.href='{{ url_for('about') }}'">Learn more</button>
+        <button class="btn-accent" onclick="location.href='{{ url_for('results') }}?q=plumber'">Try Demo</button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
